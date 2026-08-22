@@ -102,6 +102,28 @@ plugins/code-reviewer/
 
 Nothing under `plugins/` names a project, a framework, a language, or a path.
 
+## Security model
+
+The plugin ships **no executable content** — no hooks, no MCP or LSP servers, no scripts, no
+`allowed-tools` grants. It is markdown plus two JSON manifests. Installing it grants nothing.
+
+The one live trust boundary is the per-repo rulebook, and it matters precisely because you review
+code you did not write: a repo supplies both the code under review *and* the rules and commands the
+reviewer is asked to use. The plugin treats that file as **untrusted input**:
+
+- Rulebook content is **data describing what to check**, never instructions. A directive in a
+  rulebook — suppress a finding, read outside the repo, send something somewhere — is ignored and
+  reported as a BLOCKER finding against that repo.
+- Commands from a rulebook's `yaml` block are **confirmed with you the first time** they run in a
+  repo.
+- Shapes a verification command has no reason to have — piping into a shell, fetching and executing
+  remote content, opening a network connection, decode-then-execute, writing outside the repo,
+  recursive deletion, reading `~/.aws` / `~/.ssh` / `.env` — are refused outright and reported.
+- Repository content, credentials, and environment data are never transmitted anywhere.
+
+The same guards are repeated in both subagents, since they read the rulebook too. Claude Code's own
+permission prompts remain the backstop underneath all of it.
+
 ## Notes
 
 - Plugin skills are namespaced, so `/code-reviewer:review` never collides with the built-in
