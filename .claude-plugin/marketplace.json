@@ -2,7 +2,8 @@
   "name": "code-review-tools",
   "description": "Portable code review tooling for Claude Code. Universal review lenses that ship with the plugin, plus per-project conventions the repo declares itself.",
   "owner": {
-    "name": "code-review-tools"
+    "name": "Anil Sakariya",
+    "email": "anil@trivediinfotech.com"
   },
   "plugins": [
     {

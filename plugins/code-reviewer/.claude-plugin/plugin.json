@@ -2,6 +2,16 @@
   "name": "code-reviewer",
   "version": "1.0.0",
   "description": "Portable code review. Universal lenses ship with the plugin; per-project conventions live in the repo at .claude/review/rules.md and are discovered at runtime, so the same plugin works in any codebase.",
+  "author": {
+    "name": "Anil Sakariya",
+    "email": "anil@trivediinfotech.com"
+  },
   "license": "MIT",
-  "keywords": ["code-review", "review", "quality", "correctness", "security"]
+  "keywords": [
+    "code-review",
+    "review",
+    "quality",
+    "correctness",
+    "security"
+  ]
 }
