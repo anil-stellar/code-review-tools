@@ -1,0 +1,14 @@
+{
+  "name": "code-review-tools",
+  "description": "Portable code review tooling for Claude Code. Universal review lenses that ship with the plugin, plus per-project conventions the repo declares itself.",
+  "owner": {
+    "name": "code-review-tools"
+  },
+  "plugins": [
+    {
+      "name": "code-reviewer",
+      "source": "./plugins/code-reviewer",
+      "description": "Project-agnostic code review: universal correctness, security and performance lenses plus whatever conventions the repo declares in .claude/review/rules.md."
+    }
+  ]
+}
