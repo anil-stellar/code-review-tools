@@ -106,6 +106,21 @@ SQL, shell execution, deserialization, a template render.
   templates, config, cron entries, and dynamic dispatch by string name before accepting a deletion.
 - A magic number or string that is persisted or compared across layers, and should be a named
   constant shared by both sides.
+- **Pass-through wrapper** — a function, method, or computed whose entire body is `return
+  otherFn()` (or `return otherFn(...sameArgs)`) on something it imports, adding no logic, no
+  default, no transformation, and no caching. It is a layer of indirection with no job: every
+  reader has to open it to learn it does nothing, and callers could import `otherFn` directly.
+  **Flag it as MINOR — but only after checking every caller.** A wrapper is *required*, not a
+  finding, when it is the only way its callers can reach the function:
+  - it exposes an imported function to a **template** that cannot import (a Vue Options API
+    `computed`/`method`, a Blade/Twig helper, an Angular component member);
+  - it satisfies an **interface, abstract method, or override** the callee cannot;
+  - it adapts a **signature** (`this`-binding, arity, event → argument) or adds
+    memoisation/reactivity the raw function lacks;
+  - it is a deliberate **public API seam** (a module's index re-export, a facade), stated as such.
+  Grep the wrapper's name. If every caller is in script and could `import` the target, it is the
+  finding; name the callers in the evidence. If a template or an interface is among the callers,
+  it is not.
 
 ## G. Collateral — always
 
