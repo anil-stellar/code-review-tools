@@ -93,6 +93,7 @@ plugins/code-reviewer/
   skills/review/
     SKILL.md                             the engine
     universal-checklist.md               project-agnostic lenses
+    framework-checks.md                  framework lenses, gated on the detected stack
     rulebook-template.md                 starter a rulebook is generated from
     init.md                              the --init procedure
   agents/

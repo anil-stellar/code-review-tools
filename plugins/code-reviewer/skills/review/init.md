@@ -57,6 +57,10 @@ make overlapping globs unambiguous — the narrower one wins, so state which is 
 - **Checkable by reading a diff.** "Code should be maintainable" is not a rule. "Every API call
   handles the error branch with `handleApiError`" is.
 - **Not already enforced by a linter or formatter.**
+- **Not already covered by `${CLAUDE_SKILL_DIR}/framework-checks.md`.** If the project's stack
+  matches a section there, that section is applied automatically on every review — restating its
+  rules in the rulebook produces the same finding twice. Write the rule only where the project
+  goes *beyond* the framework's own, and say what it adds.
 - **Marked HARD only when it is genuinely non-negotiable** — a security, data-integrity, or
   correctness guarantee, or a rule the instructions state absolutely. HARD means "always a finding,
   no judgement call." Over-marking turns the review into noise. Most rules are not HARD.

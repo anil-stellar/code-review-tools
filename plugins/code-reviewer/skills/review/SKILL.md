@@ -12,6 +12,8 @@ rulebook.
 Bundled files (reference them by these exact paths, they resolve wherever the plugin is installed):
 
 - `${CLAUDE_SKILL_DIR}/universal-checklist.md` — lenses that hold in every codebase
+- `${CLAUDE_SKILL_DIR}/framework-checks.md` — framework-gated lenses, each read ONLY when its
+  signals match the repo (see §3.5)
 - `${CLAUDE_SKILL_DIR}/rulebook-template.md` — the starter a project's rulebook is generated from
 - `${CLAUDE_SKILL_DIR}/init.md` — the `--init` bootstrap procedure (read ONLY for `--init`)
 
@@ -152,11 +154,27 @@ file to exactly one bucket before reviewing.
 
 Drop any bucket §0 excluded.
 
+## 3.5 Detect the stack — one cheap check
+
+`${CLAUDE_SKILL_DIR}/framework-checks.md` holds lenses that are true for a framework but meaningless
+without it. Before reviewing, work out which of its sections apply, using the file list you already
+have from §1 plus at most one `grep` on the manifest.
+
+**A section applies only when every signal in its "Applies when" line holds.** The Vue + Vuetify
+section, for instance, needs `.vue` files in the diff **and** `vuetify` in `package.json` — a Vue
+repo without Vuetify gets none of it, and neither does a Vuetify repo whose diff touches no `.vue`
+files.
+
+If no section applies, **skip the file entirely** — do not read it, and do not mention it in the
+report. A repo that uses none of these frameworks pays nothing. Name the matched sections in the
+scope line when there are any, e.g. `… · frameworks: vue+vuetify · FAST`.
+
 ## 4. FAST pass (default)
 
 Read the **diff body** for the files in scope in ONE call (`git -C "$ROOT" diff HEAD -- <files>`),
 read the untracked files' bodies, then read the rulebook sections for the buckets present (`sed -n`
-a range — never the whole rulebook) and `${CLAUDE_SKILL_DIR}/universal-checklist.md`.
+a range — never the whole rulebook), `${CLAUDE_SKILL_DIR}/universal-checklist.md`, and the
+sections of `${CLAUDE_SKILL_DIR}/framework-checks.md` that §3.5 matched — those sections only.
 
 Work from the hunks. Open source only where a hunk leaves a real question, and then read the
 **region** — the enclosing function, the matching `else`/`catch`, the template block — with
@@ -171,7 +189,9 @@ Apply, in this order:
 2. **Universal lenses** — error handling, input validation, security *(only where the diff crosses
    a trust boundary)*, performance *(only for new query/loop code)*, debug artifacts, secrets,
    collateral. In the universal checklist.
-3. **Project rules** — the rulebook sections for the buckets present. Rules the rulebook marks
+3. **Framework lenses** — the `framework-checks.md` sections §3.5 matched, applied to the files
+   that carry the signal. Nothing here applies to a repo that did not match; skip silently.
+4. **Project rules** — the rulebook sections for the buckets present. Rules the rulebook marks
    **HARD** are findings whenever broken, no judgement call. Everything else is a finding only when
    it causes a visible or functional defect, or when the surrounding file already follows the
    convention and this change breaks it.
@@ -191,7 +211,10 @@ in any review. Below that threshold your own verification stands, and the report
 Fan out **one `bucket-reviewer` per bucket, in a single message**. Give each: its bucket name, its
 file list (absolute paths, one repo), the diff command for its slice, the untracked files in its
 slice, the **absolute path to the rulebook and the line range of its section**, the absolute path to
-`${CLAUDE_SKILL_DIR}/universal-checklist.md`, and one sentence on what the change is trying to do.
+`${CLAUDE_SKILL_DIR}/universal-checklist.md`, the absolute path to
+`${CLAUDE_SKILL_DIR}/framework-checks.md` **with the names of the sections §3.5 matched** (omit
+both when nothing matched, rather than sending a path the agent should ignore), and one sentence
+on what the change is trying to do.
 Expand `${CLAUDE_SKILL_DIR}` yourself — subagents cannot.
 
 **5 agents is the cap; 2-3 is normal.** Every agent is a cold context that pays its own startup, so
