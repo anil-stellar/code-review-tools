@@ -99,14 +99,16 @@ SQL, shell execution, deserialization, a template render.
 
 - Debug artifacts left behind: `console.log`, `debugger`, `print`, `var_dump`, `dd(`, `binding.pry`,
   a commented-out block kept "just in case".
-- **Comment bloat** — a comment block out of all proportion to the code under it: ten-plus lines
-  sitting on a few ordinary statements, narrating what the code visibly does, restating the diff
-  ("changed X to Y"), justifying the change to a reviewer, or keeping a history the VCS already
-  keeps. A comment earns its length only by stating what the code cannot — an external constraint,
-  a spec or ticket reference, a non-obvious why. Flag as MINOR and propose the one or two lines
-  that survive; with `--fix`, apply that compression. **Exempt:** license and generated-file
-  headers, doc comments on a public API in the language's convention (docstring, JSDoc, PHPDoc),
-  and a genuinely tricky algorithm explained once at its head.
+- **Comment bloat** — **a comment block added by the diff may run to at most five lines.** Six or
+  more is a finding on length alone, and so is any block — however short — out of all proportion to
+  the code under it: narrating what the code visibly does, restating the diff ("changed X to Y"),
+  justifying the change to a reviewer, or keeping a history the VCS already keeps. A comment earns
+  its length only by stating what the code cannot — an external constraint, a spec or ticket
+  reference, a non-obvious why. Flag as MINOR and propose the one or two lines that survive; with
+  `--fix`, apply that compression and keep every comment you write within the same five-line cap.
+  **Exempt:** license and generated-file headers, doc comments on a public API in the language's
+  convention (docstring, JSDoc, PHPDoc), and a genuinely tricky algorithm explained once at its
+  head.
 - A new `TODO` / `FIXME` / `HACK` with no ticket or owner.
 - Dead code: an unreachable branch, an unused import, a parameter nothing passes, a flag with one
   value.
