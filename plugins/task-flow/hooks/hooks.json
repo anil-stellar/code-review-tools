@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      { "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/track-command.mjs\"", "timeout": 10 }] }
+    ],
+    "PreToolUse": [
+      { "matcher": "Skill", "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/track-command.mjs\"", "timeout": 10 }] },
+      { "matcher": "Bash|PowerShell", "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/git-guard.mjs\"", "timeout": 10 }] },
+      { "matcher": "mcp__.*", "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/tracker-guard.mjs\"", "timeout": 10 }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/stop-guard.mjs\"", "timeout": 10 }] }
+    ]
+  }
+}
