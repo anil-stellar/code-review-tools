@@ -1,7 +1,13 @@
 # code-review-tools
 
-A Claude Code plugin marketplace containing **`code-reviewer`** — a code review plugin that works in
-any project, in any language, with no configuration required to start.
+A Claude Code plugin marketplace containing:
+
+- **`code-reviewer`** — a code review plugin that works in any project, in any language, with no
+  configuration required to start. Everything below is about it.
+- **`task-flow`** — six commands that take a task from its tracker link to a pushed commit and a
+  posted comment, with the developer approving the plan, the push and the comment. Unlike
+  `code-reviewer` it ships hooks (Node scripts) that hold those approvals. See
+  [`plugins/task-flow/README.md`](plugins/task-flow/README.md).
 
 ## What makes it portable
 

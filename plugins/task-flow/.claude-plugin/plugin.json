@@ -1,0 +1,11 @@
+{
+  "name": "task-flow",
+  "version": "0.1.0",
+  "description": "Six commands take a task from its tracker link to a pushed commit and a posted comment: analyse and plan, implement, test, review, push, comment. Each command does one step and stops; the developer approves the plan, the push and the comment. Project rules live in each repo at .claude/task-flow/rules.md.",
+  "author": {
+    "name": "Anil Sakariya",
+    "email": "anil@trivediinfotech.com"
+  },
+  "license": "MIT",
+  "keywords": ["workflow", "task", "plan", "implement", "test", "asana"]
+}

@@ -1,6 +1,6 @@
 {
   "name": "code-review-tools",
-  "description": "Portable code review tooling for Claude Code. Universal review lenses that ship with the plugin, plus per-project conventions the repo declares itself.",
+  "description": "Claude Code tooling: portable code review, and a task flow from tracker link to pushed commit.",
   "owner": {
     "name": "Anil Sakariya",
     "email": "anil@trivediinfotech.com"
@@ -10,6 +10,11 @@
       "name": "code-reviewer",
       "source": "./plugins/code-reviewer",
       "description": "Project-agnostic code review: universal correctness, security and performance lenses plus whatever conventions the repo declares in .claude/review/rules.md."
+    },
+    {
+      "name": "task-flow",
+      "source": "./plugins/task-flow",
+      "description": "Analyse a task into a plan the developer approves, implement it file by file, test the whole module with Playwright, review, then push and comment only after the developer says yes. Project rules come from .claude/task-flow/rules.md in each repo."
     }
   ]
 }
